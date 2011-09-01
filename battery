@@ -1,5 +1,5 @@
 #!/bin/bash
-t=`expr $1 + 0`
+t=`expr $1 + 0 2> /dev/null`
 if [ $? -gt 0 ]; then
     declare t=30
 fi
