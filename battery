@@ -1,6 +1,17 @@
 #!/bin/bash
-
-current=`ioreg -w0 -l | grep Capacity | grep CurrentCapacity | awk '{print $NF}'`
+t=`expr $1 + 0`
+if [ $? -gt 0 ]; then
+    declare t=30
+fi
+c1=`ioreg -w0 -l | grep Capacity | grep CurrentCapacity | awk '{print $NF}'`
 max=`ioreg -w0 -l | grep Capacity | grep MaxCapacity | awk '{print $NF}'`
-
-echo "scale=3; $current * 100 / $max" | bc
+echo `echo "scale=3; $c1 * 100 / $max" | bc`%
+sleep $t
+c2=`ioreg -w0 -l | grep Capacity | grep CurrentCapacity | awk '{print $NF}'`
+if [ $c2 -gt $c1 ]; then
+    echo `echo "scale=3; ($max-$c2)/(60/$t*($c2-$c1))" | bc` minutes to charge.
+elif [ $c1 -gt $c2 ]; then
+    echo `echo "scale=3; ($c2)/(60/$t*($c1-$c2))" | bc` minutes left.
+else
+    echo 'use longer elapsed time'
+fi
