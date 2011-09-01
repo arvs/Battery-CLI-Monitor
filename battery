@@ -1,0 +1,6 @@
+#!/bin/bash
+
+current=`ioreg -w0 -l | grep Capacity | grep CurrentCapacity | awk '{print $NF}'`
+max=`ioreg -w0 -l | grep Capacity | grep MaxCapacity | awk '{print $NF}'`
+
+echo "scale=3; $current * 100 / $max" | bc
