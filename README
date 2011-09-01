@@ -1,1 +1,3 @@
 Copy to /usr/bin, and call by typing battery in the command line.
+
+You can provide a command line argument in seconds for the number of seconds to wait during the calculation of how much battery is left. Longer times will yield more accurate results.
